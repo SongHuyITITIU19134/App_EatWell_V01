@@ -11,6 +11,7 @@ import {
 import { BellIcon } from "react-native-heroicons/outline";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import WeekView from "../components/WeekViewDisplay/WeekView";
+import Button from "../components/ui/Button";
 
 const todayDate = new Date().toISOString().split("T")[0];
 
@@ -39,34 +40,14 @@ export default function HomeScreen() {
           <BellIcon size={hp(4)} color="gray" />
         </View>
 
-        {/* greetings and punchline */}
+        {/* Calendar */}
         <View style={styles.greetingsContainer}>
-          {/* <View>
-            <Text
-              style={{ fontSize: hp(3.8), fontWeight: "bold", color: "gray" }}
-            >
-              Make your own food,
-            </Text>
-          </View> */}
-          {/* <View>
-            <Text style={{ fontSize: 38, fontWeight: "bold", color: "gray" }}>
-              stay at <Text style={{ color: "orange" }}>home</Text>
-            </Text>
-          </View> */}
           <SafeAreaView style={styles.calendar}>
             <WeekView todayDate={todayDate} />
           </SafeAreaView>
         </View>
 
-        {/* search bar */}
-        {/* <View style={styles.searchBarContainer}>
-          <TextInput
-            placeholder="Search any recipe"
-            placeholderTextColor={"gray"}
-            style={styles.searchBarInput}
-          />
-          <View style={styles.magnifyingGlassIcon}></View>
-        </View> */}
+        {/* TITLE - See More */}
         <View style={styles.title}>
           <View style={styles.textTitle}>
             <Text style={styles.fontSizeTitle}>Your Meal Plan</Text>
@@ -75,7 +56,49 @@ export default function HomeScreen() {
             <Text style={styles.fontSizeLink}> See more</Text>
           </View>
         </View>
-        <View></View>
+
+        {/* Name of Plan and Kcal */}
+        <View style={styles.midContainer}>
+          <View style={styles.buttonAdd}>
+            <Button>Add</Button>
+          </View>
+          <View style={styles.midText}>
+            <Text style={styles.fontMidText}>Kcal </Text>
+          </View>
+        </View>
+
+        {/* Meal Date */}
+
+        <View style={styles.bottomContainer}>
+          {/* Breakfast */}
+          <View style={styles.elementBottom}>
+            <View style={styles.titleBottom}>
+              <Text style={styles.textBottom}>BreakFast</Text>
+            </View>
+            <View style={styles.recipesBottom}>
+              <Button>Add Meal </Button>
+            </View>
+          </View>
+          {/* Lunch */}
+          <View style={styles.elementBottom}>
+            <View style={styles.titleBottom}>
+              <Text style={styles.textBottom}>Lunch</Text>
+            </View>
+            <View style={styles.recipesBottom}>
+              <Button>Add Meal</Button>
+            </View>
+          </View>
+
+          {/* Afternoon */}
+          <View style={styles.elementBottom}>
+            <View style={styles.titleBottom}>
+              <Text style={styles.textBottom}> Afternoon </Text>
+            </View>
+            <View style={styles.recipesBottom}>
+              <Button>Add Meal</Button>
+            </View>
+          </View>
+        </View>
       </ScrollView>
     </View>
   );
@@ -150,5 +173,36 @@ const styles = StyleSheet.create({
   fontSizeLink: {
     fontSize: 15,
     color: "#7c7c7c",
+  },
+  midContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    margin: 15,
+  },
+  buttonAdd: {
+    backgroundColor: "#979696",
+    paddingHorizontal: 100,
+    paddingVertical: 40,
+    borderRadius: 10,
+  },
+  midText: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fontMidText: {
+    fontSize: 20,
+  },
+  bottomContainer: {},
+  elementBottom: {
+    marginTop: 25,
+  },
+  textBottom: {
+    fontSize: 20,
+    marginBottom: 10,
+    fontWeight: "bold",
+  },
+  recipesBottom: {
+    backgroundColor: "#976868",
+    paddingVertical: 60,
   },
 });
