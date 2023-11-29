@@ -12,10 +12,10 @@ import Onboarding from "react-native-onboarding-swiper";
 
 const { width, height } = Dimensions.get("window");
 
-export default function OnBoardingScreen() {
+export default function SurveyScreen() {
   const navigation = useNavigation();
   const handleDone = () => {
-    navigation.navigate("Login");
+    navigation.navigate("Welcome");
   };
 
   const doneButton = ({ ...props }) => {
@@ -35,7 +35,7 @@ export default function OnBoardingScreen() {
         containerStyles={{ paddingHorizontal: 40 }}
         pages={[
           {
-            backgroundColor: "#EBF3E8",
+            backgroundColor: "#fff",
             image: (
               <View>
                 <LottieView
@@ -50,7 +50,7 @@ export default function OnBoardingScreen() {
             subtitle: "Done with React Native Onboarding Swiper",
           },
           {
-            backgroundColor: "#D2E3C8",
+            backgroundColor: "#fff",
             image: (
               <View>
                 <LottieView
@@ -65,7 +65,7 @@ export default function OnBoardingScreen() {
             subtitle: "Done with React Native Onboarding Swiper",
           },
           {
-            backgroundColor: "#B2C8BA",
+            backgroundColor: "#fff",
             image: (
               <View>
                 <LottieView
@@ -80,7 +80,7 @@ export default function OnBoardingScreen() {
             subtitle: "Done with React Native Onboarding Swiper",
           },
           {
-            backgroundColor: "#86A789",
+            backgroundColor: "#fff",
             image: (
               <View>
                 <LottieView

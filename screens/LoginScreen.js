@@ -4,6 +4,7 @@ import AuthContent from "../components/Auth/AuthContent";
 import LoadingOverlay from "../components/ui/LoadingOverlay";
 import { AuthContext } from "../store/auth-context";
 import { login } from "../ulti/auth";
+
 function LoginScreen() {
   const [isAuthenticating, setAuthenticating] = useState(false);
   const authCtx = useContext(AuthContext);

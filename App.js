@@ -1,26 +1,41 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
+import React, { useContext } from "react";
 import { Colors } from "./constants/styles";
+import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import OnBoardingScreen from "./screens/OnBoardingScreen";
 import SignupScreen from "./screens/SignupScreen";
+import SurveyScreen from "./screens/SurveyScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
-import AuthContextProvider from "./store/auth-context";
+import AuthContextProvider, { AuthContext } from "./store/auth-context";
 
 const Stack = createNativeStackNavigator();
 
 function AuthStack() {
   return (
     <Stack.Navigator
+      initialRouteName="Onboarding"
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
-        headerTintColor: "white",
-        contentStyle: { backgroundColor: Colors.primary100 },
+        headerTintColor: "black",
       }}
     >
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Signup" component={SignupScreen} />
+      <Stack.Screen
+        name="Onboarding"
+        component={OnBoardingScreen}
+        options={{ title: "Onboarding" }} // Customize the header for this screen
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ title: "Login" }} // Customize the header for this screen
+      />
+      <Stack.Screen
+        name="Signup"
+        component={SignupScreen}
+        options={{ title: "Signup" }} // Customize the header for this screen
+      />
     </Stack.Navigator>
   );
 }
@@ -28,43 +43,48 @@ function AuthStack() {
 function AuthenticatedStack() {
   return (
     <Stack.Navigator
+      initialRouteName="SurveyScreen"
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
-        headerTintColor: "white",
-        contentStyle: { backgroundColor: Colors.primary100 },
+        headerTintColor: Colors.primary500,
+        headerShown: false,
       }}
     >
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
+      <Stack.Screen
+        name="SurveyScreen"
+        component={SurveyScreen}
+        options={{ title: "Survey" }} // Customize the header for this screen
+      />
+      <Stack.Screen
+        name="Welcome"
+        component={WelcomeScreen}
+        options={{ title: "Welcome" }} // Customize the header for this screen
+      />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ title: "Home" }} // Customize the header for this screen
+      />
     </Stack.Navigator>
   );
 }
 
 function Navigation() {
+  const authCtx = useContext(AuthContext);
   return (
-    <AuthContextProvider>
-      <NavigationContainer>
-        <AuthStack />
-      </NavigationContainer>
-    </AuthContextProvider>
+    <NavigationContainer>
+      {!authCtx.isAuthenticated && <AuthStack />}
+      {authCtx.isAuthenticated && <AuthenticatedStack />}
+    </NavigationContainer>
   );
 }
 
 export default function App() {
-  const showOnboarding = true; // Set this to true to display the onboarding screen
-
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        {showOnboarding ? (
-          <Stack.Navigator initialRouteName="Onboarding">
-            <Stack.Screen name="Onboarding" component={OnBoardingScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-          </Stack.Navigator>
-        ) : (
-          <Navigation />
-        )}
-      </NavigationContainer>
+      <AuthContextProvider>
+        <Navigation />
+      </AuthContextProvider>
     </>
   );
 }
