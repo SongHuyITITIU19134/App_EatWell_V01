@@ -24,7 +24,7 @@ export default function Categories({
         {categories.map((cat, index) => {
           let isActive = cat.strCategory === activeCategory;
           let activeButtonStyle = isActive
-            ? { backgroundColor: "#FFC107" }
+            ? { backgroundColor: "#FD8061" }
             : { backgroundColor: "rgba(0,0,0,0.1)" };
           return (
             <TouchableOpacity
@@ -44,7 +44,7 @@ export default function Categories({
                 source={{ uri: cat.strCategoryThumb }}
                 style={{ width: hp(6), height: hp(6), borderRadius: 50 }}
               />
-              <Text style={{ fontSize: hp(1.6), color: "gray", marginTop: 4 }}>
+              <Text style={{ fontSize: hp(1.6), color: "black", marginTop: 4 }}>
                 {cat.strCategory}
               </Text>
             </TouchableOpacity>

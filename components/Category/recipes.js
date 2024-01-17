@@ -13,11 +13,11 @@ import {
 
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-export default function Recipes({ categories, meals }) {
+export default function Recipes({ categories, meals, mealType, dateMeal }) {
   const navigation = useNavigation();
   return (
     <View style={{ marginHorizontal: 16, marginTop: 12 }}>
-      <Text style={{ fontSize: hp(3), fontWeight: "600", color: "gray" }}>
+      <Text style={{ fontSize: hp(3), fontWeight: "600", color: "#007058" }}>
         Recipes
       </Text>
       <View>
@@ -37,7 +37,13 @@ export default function Recipes({ categories, meals }) {
             numColumns={2}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => (
-              <RecipeCard item={item} index={index} navigation={navigation} />
+              <RecipeCard
+                item={item}
+                index={index}
+                navigation={navigation}
+                mealType={mealType}
+                dateMeal={dateMeal}
+              />
             )}
             // refreshing={isLoadingNext}
             // onRefresh={() => refetch({ first: ITEM_CNT })}
@@ -50,8 +56,9 @@ export default function Recipes({ categories, meals }) {
   );
 }
 
-const RecipeCard = ({ item, index, navigation }) => {
+const RecipeCard = ({ item, index, navigation, mealType, dateMeal }) => {
   let isEven = index % 2 === 0;
+
   return (
     <Animated.View>
       <Pressable
@@ -62,7 +69,9 @@ const RecipeCard = ({ item, index, navigation }) => {
           justifyContent: "center",
           marginBottom: 8,
         }}
-        onPress={() => navigation.navigate("RecipeDetail", { ...item })}
+        onPress={() =>
+          navigation.navigate("RecipeDetail", { ...item, mealType, dateMeal })
+        }
       >
         <Image
           source={{ uri: item.strMealThumb }}

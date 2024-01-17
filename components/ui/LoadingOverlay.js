@@ -1,10 +1,17 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import LottieView from "lottie-react-native";
+import { StyleSheet, View } from "react-native";
 
-function LoadingOverlay({ message }) {
+function LoadingOverlay() {
   return (
-    <View style={styles.rootContainer}>
-      <Text style={styles.message}>{message}</Text>
-      <ActivityIndicator size="large" />
+    <View style={styles.loadingAnima}>
+      <View>
+        <LottieView
+          style={styles.animationView}
+          source={require("../../assets/animation/LoginSuccessFull.json")}
+          autoPlay
+          loop
+        />
+      </View>
     </View>
   );
 }
@@ -12,14 +19,13 @@ function LoadingOverlay({ message }) {
 export default LoadingOverlay;
 
 const styles = StyleSheet.create({
-  rootContainer: {
+  loadingAnima: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 32,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  message: {
-    fontSize: 16,
-    marginBottom: 12,
+  animationView: {
+    width: 200,
+    height: 200,
   },
 });

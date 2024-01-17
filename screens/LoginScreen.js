@@ -17,11 +17,10 @@ function LoginScreen() {
     } catch (error) {
       Alert.alert("Authentication failed", "Please try again");
     }
-    
     setAuthenticating(false);
   }
   if (isAuthenticating) {
-    return <LoadingOverlay message="Log in user ..." />;
+    return <LoadingOverlay />;
   }
 
   return <AuthContent isLogin onAuthenticate={SignInHandle} />;

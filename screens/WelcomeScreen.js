@@ -17,7 +17,6 @@ export default WelcomeScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-
       {/* logo image with rings */}
       <Animated.View style={styles.ring2}>
         <Animated.View style={styles.ring1}>

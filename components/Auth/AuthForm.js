@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Button from "../ui/Button";
 import Input from "./Input";
@@ -46,7 +46,6 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
   return (
     <View>
       <View style={styles.container}>
-     
         <View style={styles.form}>
           <Input
             label="Email Address"

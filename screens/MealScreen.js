@@ -1,20 +1,25 @@
 import axios from "axios";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { Image, ScrollView, Text, TextInput, View } from "react-native";
+import { ScrollView, Text, TextInput, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Categories from "../components/Category/category";
 import Recipes from "../components/Category/recipes";
 
-export default function HomeScreen() {
+export default function MealScreen({ route }) {
   const [activeCategory, setActiveCategory] = useState("Beef");
   const [categories, setCategories] = useState([]);
   const [meals, setMeals] = useState([]);
+  const { mealType } = route.params;
+  const { dateMeal } = route.params;
+  
+  console.log('mealScreen',dateMeal)
 
   useEffect(() => {
     getCategories();
     getRecipes();
   }, []);
+
 
   const handleChangeCategory = (category) => {
     getRecipes(category);
@@ -49,7 +54,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
+    <View style={{ flex: 1, backgroundColor: "#FFF" }}>
       <StatusBar style="dark" />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -62,13 +67,23 @@ export default function HomeScreen() {
         <View style={{ marginHorizontal: 4, marginBottom: 2 }}>
           <View>
             <Text
-              style={{ fontSize: hp(3.8), fontWeight: "600", color: "gray" }}
+              style={{
+                fontSize: hp(3.8),
+                fontWeight: "600",
+                color: "#FD8061", // Primary color
+              }}
             >
               Make your own food,
             </Text>
           </View>
-          <Text style={{ fontSize: hp(3.8), fontWeight: "600", color: "gray" }}>
-            stay at <Text style={{ color: "#FFC107" }}>home</Text>
+          <Text
+            style={{
+              fontSize: hp(3.8),
+              fontWeight: "600",
+              color: "#FD8061", // Primary color
+            }}
+          >
+            stay at <Text style={{ color: "#007058" }}>home</Text>
           </Text>
         </View>
 
@@ -91,11 +106,12 @@ export default function HomeScreen() {
               fontSize: hp(1.7),
               marginBottom: hp(1),
               paddingLeft: hp(1.5),
+              color: "#333", // Text color
             }}
           />
           <View
             style={{
-              backgroundColor: "white",
+              backgroundColor: "#FFF", // Secondary color
               borderRadius: hp(1.5),
               padding: hp(1),
             }}
@@ -115,7 +131,7 @@ export default function HomeScreen() {
 
         {/* recipes */}
         <View>
-          <Recipes meals={meals} categories={categories} />
+          <Recipes meals={meals} categories={categories} mealType={mealType} dateMeal= {dateMeal} />
         </View>
       </ScrollView>
     </View>

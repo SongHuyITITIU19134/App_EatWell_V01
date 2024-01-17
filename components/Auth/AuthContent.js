@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
+import LottieView from "lottie-react-native";
 import { useState } from "react";
-import { Alert, Image, StyleSheet, View } from "react-native";
-import { Colors } from "../../constants/styles";
+import { Alert, StyleSheet, View } from "react-native";
 import FlatButton from "../ui/FlatButton";
 import AuthForm from "./AuthForm";
 
@@ -15,6 +15,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
     confirmPassword: false,
   });
 
+  
   function switchAuthModeHandler() {
     if (isLogin) {
       navigation.navigate("Signup");
@@ -53,9 +54,11 @@ function AuthContent({ isLogin, onAuthenticate }) {
 
   return (
     <View style={styles.container}>
-      <Image
+      <LottieView
         style={styles.image}
-        source={require("../../assets/animation/Image/login.jpg")}
+        source={require("../../assets/animation/Login-animation.json")}
+        autoPlay
+        loop
       />
       <View style={styles.authContent}>
         <AuthForm
@@ -78,13 +81,13 @@ export default AuthContent;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
- 
+    marginTop: 50,
   },
   authContent: {
     marginHorizontal: 32,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: Colors.primary800,
+    backgroundColor: '#3d7dc0',
     elevation: 2,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
@@ -97,5 +100,6 @@ const styles = StyleSheet.create({
   image: {
     width: 400,
     height: 300,
+    marginLeft: 7,
   },
 });

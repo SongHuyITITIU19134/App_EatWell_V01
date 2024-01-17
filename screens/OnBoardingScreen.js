@@ -21,7 +21,7 @@ export default function OnBoardingScreen() {
   const doneButton = ({ ...props }) => {
     return (
       <TouchableOpacity style={styles.doneButton} {...props}>
-        <Text>DONE</Text>
+        <Text style={styles.doneButtonText}>Let's go</Text>
       </TouchableOpacity>
     );
   };
@@ -35,7 +35,7 @@ export default function OnBoardingScreen() {
         containerStyles={{ paddingHorizontal: 40 }}
         pages={[
           {
-            backgroundColor: "#EBF3E8",
+            backgroundColor: "#72BDA3",
             image: (
               <View>
                 <LottieView
@@ -46,11 +46,13 @@ export default function OnBoardingScreen() {
                 />
               </View>
             ),
-            title: "Onboarding",
-            subtitle: "Done with React Native Onboarding Swiper",
+            title: "Welcome to Mealify",
+            subtitle: "Your Personalized Meal Planning Companion",
+            titleStyles: styles.title,
+            subTitleStyles: styles.subtitle,
           },
           {
-            backgroundColor: "#D2E3C8",
+            backgroundColor: "#A7CC7B",
             image: (
               <View>
                 <LottieView
@@ -61,11 +63,14 @@ export default function OnBoardingScreen() {
                 />
               </View>
             ),
-            title: "Onboarding",
-            subtitle: "Done with React Native Onboarding Swiper",
+            title: "Discover Delicious Recipes",
+            subtitle:
+              "Explore a variety of healthy and tasty meals tailored to your preferences.",
+            titleStyles: styles.title,
+            subTitleStyles: styles.subtitle,
           },
           {
-            backgroundColor: "#B2C8BA",
+            backgroundColor: "#7DA3A5",
             image: (
               <View>
                 <LottieView
@@ -76,11 +81,14 @@ export default function OnBoardingScreen() {
                 />
               </View>
             ),
-            title: "Onboarding",
-            subtitle: "Done with React Native Onboarding Swiper",
+            title: "Create Your Custom Meal Plans",
+            subtitle:
+              "Plan your meals effortlessly with personalized weekly schedules and grocery lists.",
+            titleStyles: styles.title,
+            subTitleStyles: styles.subtitle,
           },
           {
-            backgroundColor: "#86A789",
+            backgroundColor: "#5F826A",
             image: (
               <View>
                 <LottieView
@@ -91,27 +99,48 @@ export default function OnBoardingScreen() {
                 />
               </View>
             ),
-            title: "Onboarding",
-            subtitle: "Done with React Native Onboarding Swiper",
+            title: "Achieve Your Health Goals",
+            subtitle:
+              "Mealify helps you stay on track with your nutrition and wellness journey.",
+            titleStyles: styles.title,
+            subTitleStyles: styles.subtitle,
           },
         ]}
       />
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#FFF", // Background color for the entire screen
   },
   image: {
     width: width * 0.9,
     height: width,
   },
   doneButton: {
-    padding: 20,
-    // backgroundColor: "white",
-    // borderTopLeftRadius: "100%",
-    // borderBottomLeftRadius: "100%",
+    backgroundColor: "#72BDA3", // Color for the "Done" button
+    padding: 7,
+    borderRadius: 8,
+    marginTop: 20,
+    marginHorizontal: 20,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  doneButtonText: {
+    color: "#FFF", // Color for the text in the "Done" button
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  title: {
+    color: "#000000", // Color for the title text
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+  subtitle: {
+    color: "#FFF", // Color for the subtitle text
+    fontSize: 18,
   },
 });

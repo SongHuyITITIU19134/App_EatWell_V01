@@ -2,7 +2,7 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 
 import { Colors } from "../../constants/styles";
 
-function Input({
+export default function InputArticle({
   label,
   keyboardType,
   secure,
@@ -29,14 +29,12 @@ function Input({
   );
 }
 
-export default Input;
-
 const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 8,
   },
   label: {
-    color: "white",
+    color: "#5d5d5d",
     marginBottom: 4,
   },
   labelInvalid: {
@@ -45,7 +43,6 @@ const styles = StyleSheet.create({
   input: {
     paddingVertical: 8,
     paddingHorizontal: 6,
-    backgroundColor: Colors.primary100,
     borderRadius: 4,
     fontSize: 16,
   },

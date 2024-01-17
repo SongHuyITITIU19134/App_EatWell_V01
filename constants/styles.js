@@ -8,3 +8,13 @@ export const Colors = {
   error100: "#fcdcbf",
   error500: "#ff0000",
 };
+
+
+export const colors ={ 
+  green: '#34b232',
+  lightGreen: '#ACEEAB',
+  darkgray: " #656565",
+  gray: '#929292',
+  lightGray:" #D9D9D9",
+
+}

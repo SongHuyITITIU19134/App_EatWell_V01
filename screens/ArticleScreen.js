@@ -1,23 +1,45 @@
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import React, { useLayoutEffect, useState } from "react";
 import {
-  AntDesign,
-  Ionicons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import React from "react";
-import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
-
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import PostForm from "../components/ui/PostForm";
+import { fetchArticleUser } from "../ulti/httpRequest/http";
 
 export default function ArticleScreen() {
+  const navigation = useNavigation();
+  const [articles, setArticles] = useState([]);
+
+  const handleCreateArticle = () => {
+    navigation.navigate("CreateArticleScreen");
+  };
+
+  const fetchDataArticle = async () => {
+    try {
+      const articleData = await fetchArticleUser();
+      setArticles(articleData);
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+    }
+  };
+  useLayoutEffect(() => {
+    fetchDataArticle();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchDataArticle();
+    }, [])
+  );
+
+  console.log(articles);
+
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -41,10 +63,10 @@ export default function ArticleScreen() {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <Ionicons
+          <TouchableOpacity onPress={handleCreateArticle}>
+            <AntDesign
               style={styles.iconInner}
-              name="ios-menu"
+              name="pluscircleo"
               size={28}
               color="black"
             />
@@ -52,36 +74,21 @@ export default function ArticleScreen() {
         </View>
       </View>
 
-      {/* Create Content  */}
-      <View style={styles.areaCreateContent}>
-        <View style={styles.headerArea}>
-          <Image
-            source={require("../assets/animation/Image/icon-user.png")}
-            style={{ width: hp(8), height: hp(8) }}
-          />
-        </View>
-        <View style={styles.contentArea}>
-          <TextInput
-            placeholder="What's is on your mind?"
-            style={styles.textFont}
-            placeholderTextColor={"#5d4b4b"}
-          />
-        </View>
-      </View>
-
       {/* Main Content */}
-      <View style={styles.mainContent}
-   >
-        <ScrollView style={styles.scrollView}    showsVerticalScrollIndicator={false}
-      >
-        <PostForm />
-        <PostForm />
+      <View style={styles.mainContent}>
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+        >
+          <View>
+            <PostForm articles={articles} />
+          </View>
         </ScrollView>
       </View>
-  
+
       {/* User Info */}
       <View style={styles.userInfo}>
-        {/* ... Other user info components ... */}
+        <Text>User's name</Text>
       </View>
     </View>
   );
@@ -93,7 +100,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     overflow: "hidden",
     marginLeft: 5,
-    paddingBottom: 200,
+    paddingBottom: 100,
   },
   /* Header */
   header: {
@@ -118,7 +125,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: "99%",
     height: hp(10),
-
     flexDirection: "row",
     alignItems: "center",
   },
@@ -127,7 +133,7 @@ const styles = StyleSheet.create({
   },
   contentArea: {
     marginLeft: 20,
-    backgroundColor: "#d1cccc",
+    backgroundColor: "#cbcbcb",
     width: "72%",
     height: hp(4.2),
     borderRadius: 40,
@@ -138,6 +144,7 @@ const styles = StyleSheet.create({
     fontSize: hp(1.7),
     marginBottom: hp(1),
     paddingLeft: hp(1.5),
+    fontFamily: "Open Sans",
   },
 
   mainContent: {},
@@ -146,7 +153,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   scrollView: {
-    backgroundColor: "#aba7a7",
     width: "99%",
     height: "100%",
   },

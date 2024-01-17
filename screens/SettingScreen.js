@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import {
   Image,
@@ -25,30 +26,27 @@ const SECTIONS = [
     ],
   },
   {
-    header: "Help",
-    icon: "help-circle",
+    header: "Notifications",
+    icon: "bell",
     items: [
-      { label: "Item 1", type: "link" },
-      { label: "Item 2", type: "input", value: "Value" },
-      { label: "Item 3", type: "boolean", value: true },
-      { label: "Item 4", type: "boolean", value: false },
-      { label: "Item 5", type: "link" },
+      { label: "Push Notifications", type: "boolean", value: false },
+      { label: "Notification Sound", type: "input", value: "Default" },
+      { label: "Notification Frequency", type: "input", value: "Every 30 minutes" },
     ],
   },
   {
-    header: "Content",
-    icon: "align-center",
+    header: "Display",
+    icon: "monitor",
     items: [
-      { label: "Item 1", type: "link" },
-      { label: "Item 2", type: "input", value: "Value" },
-      { label: "Item 3", type: "boolean", value: true },
-      { label: "Item 4", type: "boolean", value: false },
-      { label: "Item 5", type: "link" },
+      { label: "Dark Mode", value: false, type: "boolean" },
+      { label: "Font Size", type: "input", value: "Medium" },
+      { label: "Theme Color", type: "input", value: "Blue" },
     ],
   },
 ];
 
 export default function Example() {
+  const navigation = useNavigation();
   const [value, setValue] = React.useState(0);
   const { tabs, items } = React.useMemo(() => {
     return {
@@ -60,15 +58,15 @@ export default function Example() {
     };
   }, [value]);
 
+  const handleEditButton = () => {
+    navigation.navigate("PersonDetail");
+  };
+
   return (
     <SafeAreaView style={{ backgroundColor: "#f8f8f8", flex: 1 }}>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Settings</Text>
-
-          <Text style={styles.subtitle}>
-            Lorem ipsum dolor sit amet consectetur.
-          </Text>
         </View>
 
         <View style={styles.profile}>
@@ -88,11 +86,7 @@ export default function Example() {
             </View>
           </View>
 
-          <TouchableOpacity
-            onPress={() => {
-              // handle onPress
-            }}
-          >
+          <TouchableOpacity onPress={() => handleEditButton()}>
             <View style={styles.profileAction}>
               <Text style={styles.profileActionText}>Edit Profile</Text>
 

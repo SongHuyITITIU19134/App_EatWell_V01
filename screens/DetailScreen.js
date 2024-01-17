@@ -9,8 +9,6 @@ import axios from "axios";
 import { StatusBar } from "expo-status-bar";
 import LottieView from "lottie-react-native";
 import React, { useEffect, useState } from "react";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-
 import {
   ScrollView,
   StyleSheet,
@@ -18,16 +16,29 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { CachedImage } from "../components/Tool/CachedImage";
+import {
+  addFavoriteRecipe,
+  addMealUser,
+  fetchFavRecipes,
+  fetchMealUser,
+} from "../ulti/httpRequest/http";
 
 export default function DetailScreen(props) {
-  console.log(props.route.params);
   let items = props.route.params;
+
+  const mealType = items.mealType;
+  const dateMeal = items.dateMeal;
   const navigation = useNavigation();
   const [meal, setMeal] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
+
+  console.log(dateMeal);
 
   useEffect(() => {
     getMealData(items.idMeal);
@@ -38,7 +49,7 @@ export default function DetailScreen(props) {
       const response = await axios.get(
         `https://themealdb.com/api/json/v1/1/lookup.php?i=${id}`
       );
-      //   console.log('got meal data: ',response.data);
+
       if (response && response.data) {
         setMeal(response.data.meals[0]);
         setLoading(false);
@@ -58,6 +69,68 @@ export default function DetailScreen(props) {
     }
 
     return indexes;
+  };
+
+  const handleAddMeal = async () => {
+    if (meal) {
+      const mealToAdd = {
+        idMeal: meal.idMeal,
+        nameMeal: meal.strMeal,
+        imageMealUrl: meal.strMealThumb,
+        mealType: mealType,
+        dateMeal: dateMeal,
+      };
+
+      const mealUserData = await fetchMealUser();
+
+      let isMealAdded = false;
+
+      for (const mealUser of mealUserData) {
+        if (
+          mealUser.idMeal === mealToAdd.idMeal &&
+          mealUser.dateMeal === mealToAdd.dateMeal
+        ) {
+          isMealAdded = true;
+          break;
+        }
+      }
+      if (isMealAdded) {
+        alert("Meal was added");
+      } else {
+        addMealUser(mealToAdd);
+        alert("Meal added successfully");
+      }
+      navigation.navigate("HomeScreen");
+    }
+  };
+
+  const handleAddFavRecipes = async () => {
+    setIsFavorite(true);
+    if (meal) {
+      const mealToAddFav = {
+        idMeal: meal.idMeal,
+        nameMeal: meal.strMeal,
+        imageMealUrl: meal.strMealThumb,
+        mealType: mealType,
+      };
+
+      const recipeFav = await fetchFavRecipes();
+
+      let isMealAdded = false;
+
+      for (const mealUser of recipeFav) {
+        if (mealUser.idMeal === mealToAddFav.idMeal) {
+          isMealAdded = true;
+          break;
+        }
+      }
+      if (isMealAdded) {
+        alert("Your Recipe has already been added to the Favorites");
+      } else {
+        addFavoriteRecipe(mealToAddFav);
+        alert("Your Recipe added to Favorite successfully");
+      }
+    }
   };
 
   return (
@@ -83,7 +156,7 @@ export default function DetailScreen(props) {
               <CachedImage uri={items.strMealThumb} style={styles.images} />
             </View>
 
-            {/* Button Back and Love */}
+            {/* Button Back,Love,Add */}
             <View style={styles.buttonContainer}>
               <View style={styles.buttonBack}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -96,14 +169,30 @@ export default function DetailScreen(props) {
                 <Text style={styles.textFont}>Back to Home</Text>
               </View>
 
-              <View style={styles.buttonLove}>
-                <TouchableOpacity onPress={() => setIsFavorite(!isFavorite)}>
-                  <Ionicons
-                    name="ios-heart-circle-outline"
-                    size={50}
-                    color={isFavorite ? "#ff5dd9" : "#ffffff"}
-                  />
-                </TouchableOpacity>
+              <View style={styles.buttonRight}>
+                <View style={styles.buttonLove}>
+                  <TouchableOpacity onPress={handleAddFavRecipes}>
+                    <Ionicons
+                      name="ios-heart-circle-outline"
+                      size={50}
+                      color={isFavorite ? "#ff5dd9" : "#ffffff"}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.buttonAdd}>
+                  <View>
+                    {
+                      <TouchableOpacity onPress={handleAddMeal}>
+                        <AntDesign
+                          name="pluscircleo"
+                          size={43}
+                          color="#34B232"
+                        />
+                      </TouchableOpacity>
+                    }
+                  </View>
+                </View>
               </View>
             </View>
 
@@ -161,8 +250,6 @@ export default function DetailScreen(props) {
                 </View>
               </View>
             </View>
-
-
 
             {/* Ingredient */}
             <View>
@@ -235,8 +322,13 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
     marginLeft: 8,
   },
+  buttonRight: {
+    flexDirection: "row",
+  },
   buttonLove: {
-    alignItems: "flex-end",
+    marginRight: 10,
+  },
+  buttonAdd: {
     marginRight: 30,
   },
   loadingAnima: {
@@ -328,7 +420,7 @@ const styles = StyleSheet.create({
   },
   instructionsText: {
     fontSize: hp(2.2),
-    marginTop:7,
+    marginTop: 7,
     color: "#000000",
   },
 });

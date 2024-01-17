@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const WeekView = ({ todayDate, getMarked }) => {
+const WeekView = ({ todayDate, updateSelectedDate, selectedDate }) => {
   const daysInWeek = [];
   const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 
   for (let i = 0; i < 7; i++) {
     const currentDate = new Date();
@@ -15,19 +16,37 @@ const WeekView = ({ todayDate, getMarked }) => {
     const isToday =
       currentDate.toISOString().split("T")[0] ===
       new Date(todayDate).toISOString().split("T")[0];
+    
+      const isSelected =
+      currentDate.toISOString().split("T")[0] ===
+      selectedDate.toISOString().split("T")[0];
+
 
     daysInWeek.push(
-      <View key={dayOfWeek} style={[styles.calendar, isToday && styles.today]}>
+      <View
+        key={dayOfWeek}
+        style={[
+          styles.calendar,
+          isToday && styles.today,
+          isSelected && styles.selectedDate, 
+        ]}
+      >
         {isToday && (
-          <View style={styles.month}>
-            <Text>/{monthNumber}</Text>
-          </View>
+          <>
+            <View style={styles.month}>
+              <Text style={[styles.text]}>/ {monthNumber}</Text>
+            </View>
+          </>
         )}
         <View>
-          <Text style={styles.textFont}>{dayOfWeek}</Text>
+          <Text style={[styles.textFont, isToday && styles.textToday]}>
+            {dayOfWeek}
+          </Text>
         </View>
         <View style={styles.dateNumber}>
-          <Text style={styles.fontSizeDate}>{dateNumber}</Text>
+          <Text style={[styles.fontSizeDate, isToday && styles.textToday]}>
+            {dateNumber}
+          </Text>
         </View>
       </View>
     );
@@ -63,10 +82,20 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   today: {
-    backgroundColor: "lightblue",
+    backgroundColor: "#34B232",
     borderRadius: 8,
     padding: 5,
   },
+  textToday: {
+    color: "#FFFFFF",
+  },
+  text: {
+    color: "#ffffff",
+  },
+  selectedDate: {
+    backgroundColor: "#6af8a3", // change this color as desired
+    borderRadius: 8,
+    padding: 5,}
 });
 
 export default WeekView;
